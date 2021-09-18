@@ -1,0 +1,145 @@
+<div class="card" *ngIf="city$ | async as city">
+  <div class="card-header">
+    {{ pageTitle }}
+  </div>
+  <div class="card-body">
+    <form novalidate (ngSubmit)="saveCity(city)" [formGroup]="cityForm">
+      <fieldset>
+        <h4>City Information</h4>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="cityNameId">Name</label>
+          <div class="col-md-9">
+            <input
+              [ngClass]="{ 'is-invalid': displayMessage.cityName }"
+              class="form-control"
+              id="cityNameId"
+              type="text"
+              placeholder="Name"
+              formControlName="cityName"
+            />
+          </div>
+          <span
+            class="invalid-feedback d-block"
+            *ngIf="displayMessage.cityName"
+          >
+            {{ displayMessage.cityName }}
+          </span>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="cityDescId"
+            >Description</label
+          >
+
+          <div class="col-md-9">
+            <textarea
+              [ngClass]="{ 'is-invalid': displayMessage.cityDesc }"
+              class="form-control"
+              id="cityDescId"
+              placeholder="Description"
+              rows="3"
+              formControlName="cityDesc"
+            >
+            </textarea>
+          </div>
+          <span
+            class="invalid-feedback d-block"
+            *ngIf="displayMessage.cityDesc"
+          >
+            {{ displayMessage.cityDesc }}
+          </span>
+        </div>
+
+        <h4>Points of Interest</h4>
+        <span>
+          <button
+            class="btn btn-primary"
+            type="button"
+            style="width: 200px; margin-right: 10px"
+            (click)="addPointOfInterest()"
+          >
+            Add Point Of Interest
+          </button>
+        </span>
+        <div formArrayName="pointsOfInterest">
+          <div
+            [formGroupName]="i"
+            *ngFor="
+              let pointOfInterest of pointsOfInterest.controls;
+              index as i
+            "
+          >
+            <div class="form-group row">
+              <label
+                class="col-md-3 col-form-label"
+                for="pointOfInterestNameId"
+                >{{ "Name " + (i + 1) }}</label
+              >
+              <div class="col-md-9">
+                <input
+                  class="form-control"
+                  id="{{ 'pointOfInterestNameId' + i }}"
+                  type="text"
+                  placeholder="Name"
+                  formControlName="poiName"
+                />
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="descriptionId">{{
+                "Description " + (i + 1)
+              }}</label>
+
+              <div class="col-md-9">
+                <textarea
+                  class="form-control"
+                  id="descriptionId"
+                  placeholder="Description"
+                  rows="3"
+                  formControlName="poiDesc"
+                >
+                </textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-10 col-md-offset-2">
+            <span>
+              <button
+                class="btn btn-primary"
+                type="submit"
+                style="width: 80px; margin-right: 10px"
+                [disabled]="!cityForm.valid || !cityForm.dirty"
+              >
+                Save
+              </button>
+            </span>
+            <span>
+              <button
+                class="btn btn-light"
+                type="button"
+                style="width: 80px; margin-right: 10px"
+                (click)="cancelEdit(city)"
+              >
+                Cancel
+              </button>
+            </span>
+            <span>
+              <button
+                class="btn btn-light"
+                type="button"
+                style="width: 80px"
+                (click)="deleteCity(city)"
+              >
+                Delete
+              </button>
+            </span>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>

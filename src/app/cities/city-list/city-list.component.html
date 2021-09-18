@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="card-header">Cities</div>
+
+  <div class="card-body">
+    <div class="list-group" *ngIf="cities">
+      <button
+        [ngClass]="{ active: city?.id == citySelected?.id }"
+        class="list-group-item list-group-item-action rounded-0"
+        *ngFor="let city of cities"
+        (click)="onCitySelected(city)"
+      >
+        {{ city.name }}
+      </button>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-md-4 text-right">
+        <button class="btn btn-primary" (click)="newCity()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="errorMessage" class="alert alert-danger">
+  Error: {{ errorMessage }}
+</div>
